@@ -1,6 +1,11 @@
 import {Game} from '../src/Game';
 import {describe} from "mocha";
 import {should} from "chai";
+const PLAYERS = [
+    'Karl',
+    'Mark',
+    'Sean',
+];
 
 describe("Game", () => {
     describe("clean game", () => {
@@ -23,5 +28,19 @@ describe("Game", () => {
         });
     });
 
+    describe('game', () =>{
+        let game;
 
+        beforeEach(() => {
+            game = new Game(PLAYERS);
+        });
+
+        it("should have names of players", () => {
+            should().exist(game.players);
+        });
+
+        it("should save proper names of players", () => {
+            game.players.should.equal(PLAYERS)
+        });
+    })
 });
