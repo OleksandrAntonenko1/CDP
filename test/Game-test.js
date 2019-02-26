@@ -42,5 +42,26 @@ describe("Game", () => {
         it("should save proper names of players", () => {
             game.players.should.equal(PLAYERS)
         });
+
+        describe('throw', () => {
+            it("should exist", () => {
+                should().exist(game.throw);
+            });
+
+            it("should handle clear one, with default multiplier", () => {
+                game.throw(0);
+                game.score().should.equal(0);
+            });
+
+            it("should handle one with one point, with default multiplier", () => {
+                game.throw(1);
+                game.score().should.equal(1);
+            });
+
+            it("should save points for the first player", () => {
+                game.throw(1);
+                game.scoreBoard[PLAYERS[0]].score.should.equal(1);
+            });
+        })
     })
 });
