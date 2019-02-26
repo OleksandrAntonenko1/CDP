@@ -42,6 +42,24 @@ describe("Game", () => {
         it("should save proper names of players", () => {
             game.players.should.equal(PLAYERS)
         });
+        describe('first throw', () => {
+            it("should not be in the score", () => {
+                game.throw(7);
+                game.score().should.equal(0);
+            });
+
+            it("should shuffle players turns", () => {
+                const shuffledPlayers = [
+                    'Sean',
+                    'Karl',
+                    'Mark',
+                ];
+                game.throw(7);
+                game.throw(3);
+                game.throw(8);
+                game.players.should.deep.equal(shuffledPlayers);
+            });
+        });
 
         describe('throw', () => {
             it("should exist", () => {
@@ -55,10 +73,16 @@ describe("Game", () => {
 
             it("should handle one with one point, with default multiplier", () => {
                 game.throw(1);
+                game.throw(1);
+                game.throw(1);
+                game.throw(1);
                 game.score().should.equal(1);
             });
 
             it("should save points for the first player", () => {
+                game.throw(1);
+                game.throw(1);
+                game.throw(1);
                 game.throw(1);
                 game.scoreBoard[PLAYERS[0]].score.should.equal(1);
             });
