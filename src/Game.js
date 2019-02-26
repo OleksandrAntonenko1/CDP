@@ -1,3 +1,6 @@
-export class Game{
+export class Game {
+    throw(){
+    };
+    score() {
+    };
 }
-
