@@ -1,10 +1,12 @@
+import {
+    GAME_END_POINTS,
+    MAX_NUMBER,
+    MAX_MULTIPLIER,
+    MIN_MULTIPLIER,
+} from './constants';
+
 export class Game {
-    constructor(players = []) {
-        this.GAME_END_POINTS = 301;
-        this.MAX_NUMBER = 20;
-        this.MAX_MULTIPLIER = 3;
-        this.MIN_MULTIPLIER = 1;
-        this.GAME_END_POINTS = 301;
+    constructor(players = ['player1', 'player2']) {
         this.players = players;
         this.scoreBoard = this.getInitialScore(players);
         this.currentPlayer = this.players[0];
@@ -16,8 +18,15 @@ export class Game {
         return (typeof param === 'number' && param >= minNumber && param <= maxNum)
     }
 
+    static checkParams(score, multiplier) {
+        const isScoreCorrect = Game.checkIntegerParam(score, MAX_NUMBER);
+        const isMultiplierCorrect = Game.checkIntegerParam(multiplier, MAX_MULTIPLIER, MIN_MULTIPLIER);
+
+        return isScoreCorrect && isMultiplierCorrect;
+    }
+
     throw(score, multiplier = 1) {
-        if (!this.checkParams(score, multiplier)) {
+        if (!Game.checkParams(score, multiplier)) {
             throw new Error('Wrong parameters')
         }
         const points = score * multiplier;
@@ -25,7 +34,7 @@ export class Game {
         this.scoreBoard[this.currentPlayer].throws.push(points);
 
         if (!this.firstThrow) {
-            this.scoreBoard[this.currentPlayer].score -= points;
+            this.scoreBoard[this.currentPlayer].score = this.countScore(points, multiplier);
         }
 
         if (this.turnCounter === this.players.length - 1) {
@@ -33,13 +42,25 @@ export class Game {
         } else {
             this.turnCounter++;
         }
+
+        return {
+            currentPlayer: this.currentPlayer,
+            points,
+            score: this.scoreBoard[this.currentPlayer].score,
+        }
     };
 
-    checkParams(score, multiplier) {
-        const isScoreCorrect = Game.checkIntegerParam(score, this.MAX_NUMBER);
-        const isMultiplierCorrect = Game.checkIntegerParam(multiplier, this.MAX_MULTIPLIER, this.MIN_MULTIPLIER);
+    countScore(points, multiplier) {
+        const {score} = this.scoreBoard[this.currentPlayer];
+        const result = score - points;
 
-        return isScoreCorrect && isMultiplierCorrect;
+        if (result === 0 && multiplier > 1) {
+            return 0
+        } else if (result <= 1 || (result === 0 && multiplier === 1)) {
+            return score
+        } else {
+            return result;
+        }
     }
 
     handleTurnEnd() {
@@ -68,7 +89,7 @@ export class Game {
         const scoreBoard = {};
 
         players.forEach((player) => {
-            scoreBoard[player] = {score: this.GAME_END_POINTS, throws: []}
+            scoreBoard[player] = {score: GAME_END_POINTS, throws: []}
         });
 
         return scoreBoard;
