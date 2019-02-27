@@ -1,6 +1,7 @@
 import {Game} from '../src/Game';
 import {describe} from "mocha";
 import {should} from "chai";
+
 const PLAYERS = [
     'Karl',
     'Mark',
@@ -28,7 +29,7 @@ describe("Game", () => {
         });
     });
 
-    describe('game', () =>{
+    describe('game', () => {
         let game;
 
         beforeEach(() => {
@@ -45,7 +46,7 @@ describe("Game", () => {
         describe('first throw', () => {
             it("should not be in the score", () => {
                 game.throw(7);
-                game.score().should.equal(0);
+                game.score().should.equal(301);
             });
 
             it("should shuffle players turns", () => {
@@ -68,23 +69,24 @@ describe("Game", () => {
 
             it("should handle clear one, with default multiplier", () => {
                 game.throw(0);
-                game.score().should.equal(0);
+                game.score().should.equal(301);
             });
 
-            it("should handle one with one point, with default multiplier", () => {
-                game.throw(1);
-                game.throw(1);
-                game.throw(1);
-                game.throw(1);
-                game.score().should.equal(1);
-            });
+            describe('throw after players shuffle', () => {
+                beforeEach(() => {
+                    game.throw(1);
+                    game.throw(1);
+                    game.throw(1);
+                    game.throw(1);
+                });
 
-            it("should save points for the first player", () => {
-                game.throw(1);
-                game.throw(1);
-                game.throw(1);
-                game.throw(1);
-                game.scoreBoard[PLAYERS[0]].score.should.equal(1);
+                it("should handle one with one point, with default multiplier", () => {
+                    game.score().should.equal(300);
+                });
+
+                it("should save points for the first player", () => {
+                    game.scoreBoard[PLAYERS[0]].score.should.equal(300);
+                });
             });
         })
     })

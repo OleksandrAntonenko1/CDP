@@ -1,5 +1,6 @@
 export class Game {
     constructor(players = []) {
+        this.GAME_END_POINTS = 301;
         this.players = players;
         this.scoreBoard = this.getInitialScore(players);
         this.currentPlayer = this.players[0];
@@ -10,15 +11,16 @@ export class Game {
     throw(score, multiplier = 1) {
         const points = score * multiplier;
         this.currentPlayer = this.players[this.turnCounter];
-        this.turnCounter++;
         this.scoreBoard[this.currentPlayer].throws.push(points);
 
         if (!this.firstThrow) {
-            this.scoreBoard[this.currentPlayer].score += points;
+            this.scoreBoard[this.currentPlayer].score -= points;
         }
 
-        if (this.turnCounter === this.players.length) {
+        if (this.turnCounter === this.players.length - 1) {
             this.handleTurnEnd()
+        } else {
+            this.turnCounter++;
         }
     };
 
@@ -44,7 +46,7 @@ export class Game {
         const scoreBoard = {};
 
         players.forEach((player) => {
-            scoreBoard[player] = {score: 0, throws: []}
+            scoreBoard[player] = {score: this.GAME_END_POINTS, throws: []}
         });
 
         return scoreBoard;
