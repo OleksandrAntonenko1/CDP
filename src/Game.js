@@ -1,6 +1,10 @@
 export class Game {
     constructor(players = []) {
         this.GAME_END_POINTS = 301;
+        this.MAX_NUMBER = 20;
+        this.MAX_MULTIPLIER = 3;
+        this.MIN_MULTIPLIER = 1;
+        this.GAME_END_POINTS = 301;
         this.players = players;
         this.scoreBoard = this.getInitialScore(players);
         this.currentPlayer = this.players[0];
@@ -8,7 +12,14 @@ export class Game {
         this.turnCounter = 0;
     }
 
+    static checkIntegerParam(param, maxNum, minNumber = 0) {
+        return (typeof param === 'number' && param >= minNumber && param <= maxNum)
+    }
+
     throw(score, multiplier = 1) {
+        if (!this.checkParams(score, multiplier)) {
+            throw new Error('Wrong parameters')
+        }
         const points = score * multiplier;
         this.currentPlayer = this.players[this.turnCounter];
         this.scoreBoard[this.currentPlayer].throws.push(points);
@@ -23,6 +34,13 @@ export class Game {
             this.turnCounter++;
         }
     };
+
+    checkParams(score, multiplier) {
+        const isScoreCorrect = Game.checkIntegerParam(score, this.MAX_NUMBER);
+        const isMultiplierCorrect = Game.checkIntegerParam(multiplier, this.MAX_MULTIPLIER, this.MIN_MULTIPLIER);
+
+        return isScoreCorrect && isMultiplierCorrect;
+    }
 
     handleTurnEnd() {
         if (this.firstThrow) {
@@ -39,8 +57,12 @@ export class Game {
     }
 
     score() {
-        return this.scoreBoard[this.currentPlayer].score
-    };
+        return this.scoreBoard[this.currentPlayer].score;
+    }
+
+    getScoreBoard() {
+        return Object.keys(this.scoreBoard).map((name) => ({[name]: this.scoreBoard[name].score}));
+    }
 
     getInitialScore(players) {
         const scoreBoard = {};
