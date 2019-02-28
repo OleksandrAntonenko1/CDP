@@ -1,0 +1,45 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "rules": {
+    "no-var": "error",
+    "no-const-assign": "error",
+    "object-shorthand": "error",
+    "quote-props": ["error", "as-needed"],
+    "quotes": ["error", "single"],
+    "array-bracket-newline": ["error", "consistent"],
+    "prefer-spread": "error",
+    "no-useless-call": "error",
+    "prefer-template": "error",
+    "template-curly-spacing": "error",
+    "space-before-function-paren": "error",
+    "space-before-blocks": "error",
+    "function-paren-newline": "error",
+    "prefer-arrow-callback": "error",
+    "arrow-spacing": "error",
+    "arrow-parens": "error",
+    "eqeqeq": "error",
+    "no-unneeded-ternary": "error",
+    "nonblock-statement-body-position": "error",
+    "brace-style": "error",
+    "no-else-return": "error",
+    "spaced-comment": "error",
+    "indent": ["error",2],
+    "keyword-spacing": "error",
+    "space-infix-ops": "error",
+    "newline-per-chained-call": "error",//same3
+    "no-whitespace-before-property": "error",//same3
+    "padded-blocks": "error",
+    "space-in-parens": "error",
+    "array-bracket-spacing": "error",
+    "object-curly-spacing": ["error", "always"],
+    "comma-style": "error",
+    "comma-dangle": ["error", "always-multiline"],
+    "semi": ["error", "always"]
+  }
+}
