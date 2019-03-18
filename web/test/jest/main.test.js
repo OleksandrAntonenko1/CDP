@@ -1,11 +1,11 @@
 import $ from 'jquery';
 import fs from 'fs';
 
-import Form from "../src/form";
+import Form from "../../src/Form";
 import {
   successColor,
   failureColor,
-} from  "../src/constants"
+} from "../../src/constants"
 
 const html = fs.readFileSync('./index.html').toString();
 document.documentElement.innerHTML = html;

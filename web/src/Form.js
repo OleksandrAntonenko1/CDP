@@ -1,6 +1,7 @@
 import {
   successColor,
-  failureColor
+  failureColor,
+  successMessage,
 } from './constants';
 
 export default class Form {
@@ -61,7 +62,7 @@ export default class Form {
 
   handlePostRequest = ({status}) => {
     if (status === 'ok') {
-      alert('Account Created Successfully');
+      alert(successMessage);
     }
   };
 }

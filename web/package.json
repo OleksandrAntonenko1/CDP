@@ -8,13 +8,15 @@
   },
   "scripts": {
     "test": "jest --watchAll --coverage",
+    "test-end": "nightwatch",
     "build": "webpack"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "jquery": "^3.1.1"
+    "jquery": "^3.1.1",
+    "nightwatch": "^1.0.19"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
@@ -23,8 +25,9 @@
     "babel-cli": "^6.26.0",
     "babel-jest": "^24.3.1",
     "babel-loader": "^8.0.5",
+    "chromedriver": "^2.46.0",
     "jest": "^24.1.0",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.3.0"
   }
 }
