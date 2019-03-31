@@ -1,15 +1,4 @@
 /**
- * Enum for League.
- * @enum {number}
- *
- * @export
- */
-const League = {
-  PRO: 2,
-  SEMI: 1,
-  AMA: 0
-};
-/**
  * @class
  * @classdesc Player class.
  *

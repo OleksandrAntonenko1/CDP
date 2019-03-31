@@ -4,7 +4,6 @@
  */
 const GAME_END_POINTS = 301;
 /**
- * Max number in game.
  * @const {number}
  */
 const MAX_NUMBER = 20;
@@ -19,7 +18,6 @@ const MIN_MULTIPLIER = 1;
 
 /**
  * @class
- * @classdesc Game class.
  *
  * @export
  */
@@ -31,9 +29,28 @@ class Game {
    */
   constructor(players) {
     this.players = players;
+    /**
+     *  @member {{
+     *    string: {
+     *      throws: Array<number>,
+     *      score: number,
+     *      id: string,
+     *      League, league,
+     *      fullName: string,
+     *  }}} scoreBoard
+     */
     this.scoreBoard = this.getInitialScore(players);
+    /**
+     *  @member {Player} currentPlayer
+     */
     this.currentPlayer = this.players[0];
+    /**
+     *  @member {boolean} firstThrow
+     */
     this.firstThrow = true;
+    /**
+     *  @member {number} turnCounter
+     */
     this.turnCounter = 0;
   }
 
@@ -62,25 +79,34 @@ class Game {
   }
 
   /**
+   *  @param {string} id
    *  @param {number} score
    *  @param {number} multiplier
    *
    *  @return {Object}
    */
-  throw(score, multiplier = 1) {
+  throw(id, score, multiplier = 1) {
     if (!Game.checkParams(score, multiplier)) {
       throw new Error('Wrong parameters')
     }
+
     const points = score * multiplier;
+
     this.currentPlayer = this.players[this.turnCounter];
-    this.scoreBoard[this.currentPlayer].throws.push(points);
+    this.scoreBoard[this.currentPlayer.id].throws.push(points);
 
     if (!this.firstThrow) {
-      this.scoreBoard[this.currentPlayer].score = this.countScore(points, multiplier);
+      this.scoreBoard[this.currentPlayer.id].score = this.countScore(points, multiplier);
     }
 
     if (this.turnCounter === this.players.length - 1) {
-      this.handleTurnEnd()
+      if (this.firstThrow) {
+        this.players = this.players.sort((player1, player2) => {
+          return this.scoreBoard[player2.id].throws[0] - this.scoreBoard[player1.id].throws[0];
+        });
+        this.firstThrow = false;
+      }
+      this.turnCounter = 0;
     } else {
       this.turnCounter++;
     }
@@ -88,7 +114,7 @@ class Game {
     return {
       currentPlayer: this.currentPlayer,
       points,
-      score: this.scoreBoard[this.currentPlayer].score,
+      score: this.scoreBoard[this.currentPlayer.id].score,
     }
   };
 
@@ -99,7 +125,7 @@ class Game {
    *  @return {number}
    */
   countScore(points, multiplier) {
-    const {score} = this.scoreBoard[this.currentPlayer];
+    const {score} = this.scoreBoard[this.currentPlayer.id];
     const result = score - points;
 
     if (result === 0 && multiplier > 1) {
@@ -111,33 +137,83 @@ class Game {
     }
   }
 
-  handleTurnEnd() {
-    if (this.firstThrow) {
-      this.checkPlayersOrder();
-      this.firstThrow = false;
+  /**
+   *  @param {string} id
+   *
+   *  @return {Array<Object>}
+   */
+  score(id) {
+    let result;
+
+    try {
+      result = this.scoreBoard[id].score;
+    } catch (e) {
+      result = null
     }
-    this.turnCounter = 0;
+    return result
   }
 
-  checkPlayersOrder() {
-    this.players = this.players.sort((player1, player2) => {
-      return this.scoreBoard[player2].throws[0] - this.scoreBoard[player1].throws[0];
-    })
+  /**
+   *  @return {Array<Object>}
+   */
+  getLeaders() {
+    const result = [];
+
+    result.push(this.getFormattedScore());
+
+    Object.values(League).forEach((league) => {
+      result.push(this.getFormattedScore(league))
+    });
+
+    return result
   }
 
-  score() {
-    return this.scoreBoard[this.currentPlayer].score;
+  /**
+   *  @param {League|null} league
+   *
+   *  @return {string}
+   */
+  getFormattedScore(league = null) {
+    const {fullName = '-', score = '-'} = this.getLeader(league) || {};
+
+    return `${league || 'Leader'}: ${fullName} - ${score}.`
   }
 
-  getScoreBoard() {
-    return Object.keys(this.scoreBoard).map((name) => ({[name]: this.scoreBoard[name].score}));
+  /**
+   *  @param {League|null} league
+   *
+   *  @return {Object}
+   */
+  getLeader(league) {
+    const data = Object.values(this.scoreBoard || {});
+    const players = league
+      ? data.filter((player) => player.league === league)
+      : data;
+
+    return players.sort((player1, player2) => (this.scoreBoard[player2.id].score - this.scoreBoard[player1.id].score))
+      .pop()
   }
 
+  /**
+   *  @param {Array<Player>} players
+   *
+   *  @return {Object}
+   */
   getInitialScore(players) {
+    /**
+     *  @type {{
+     *    string: {
+     *      throws: Array<number>,
+     *      score: number,
+     *      id: string,
+     *      League, league,
+     *      fullName: string,
+     *  }}|Object} scoreBoard
+     */
     const scoreBoard = {};
 
     players.forEach((player) => {
-      scoreBoard[player] = {score: GAME_END_POINTS, throws: []}
+      scoreBoard[player.id] = {...player, score: GAME_END_POINTS, throws: []}
     });
 
     return scoreBoard;
