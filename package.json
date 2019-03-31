@@ -4,20 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc ./node_modules/.bin/mocha --require @babel/register"
+    "test": "nyc ./node_modules/.bin/mocha --require @babel/register",
+    "build": "java -jar ./compiler-latest/closure-compiler-v20190325.jar --js ./src/** --js_output_file ./build/bundle.js"
   },
   "author": "Oleksandr Antonenko",
-  "license": "ISC",
-  "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/node": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
-    "@babel/register": "^7.0.0",
-    "chai": "^4.2.0",
-    "mocha": "^6.0.1",
-    "nodemon": "^1.18.10",
-    "nyc": "^13.3.0",
-    "sinon": "^7.2.4"
-  }
+  "license": "ISC"
 }
