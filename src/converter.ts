@@ -24,7 +24,7 @@ interface CurrencyConverter {
 
 
 export class Converter implements CurrencyConverter {
-    private _map: CurrencyMap;
+    private readonly _map: CurrencyMap;
     /* private  _map: CurrencyMap; */
     /* constructor(usdToUah: number, eurToUah: number) */
 
@@ -58,6 +58,6 @@ export class Converter implements CurrencyConverter {
     };
 
     convert(value: number, from: Currency, to: Currency): number{
-        return this._map[from][to] * value
+        return parseInt((this._map[from][to] * value).toFixed(2))
     };
 }

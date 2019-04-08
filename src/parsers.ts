@@ -29,7 +29,7 @@ function setItem(
         currency,
     };
 
-    const convertedDate: string = new Date(date).toString();
+    const convertedDate: string = new Date(date).toLocaleDateString('en-US');
 
     if (result[convertedDate]) {
         result[convertedDate].push(room)

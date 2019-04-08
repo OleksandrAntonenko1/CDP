@@ -1,14 +1,7 @@
-import {Converter} from "./src/converter";
-import { getAllHotels} from "./src/parsers";
+import {getAllHotels} from "./src/parsers";
+import {Application} from "./src/Application";
 import {renderTable} from "./src/render-table";
-
-let kek = new Converter();
-
-console.log(kek.toEUR(6, 'UAH'));
-console.log(kek.toUAH(6, 'UAH'));
-console.log(kek.toUAH(6, 'USD'));
-
-
 
 // @ts-ignore
 renderTable(getAllHotels(), document.querySelector('#root'));
+const App = new Application();
