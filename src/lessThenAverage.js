@@ -1,7 +1,9 @@
 import {
     getAverageLength,
     getAverageNumber,
-} from '../helpers'
+} from './helpers'
+
+// new version 1.0.1.
 
 export const lessThenAverage = (arr) => {
     if (!Array.isArray(arr)) {

@@ -1,10 +1,18 @@
 {
   "name": "jsmp-infrastucture-cdp-task",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "test package for study",
   "main": "index.js",
+  "keywords": [
+    "count elements in string",
+    "less then average",
+    "strings"
+  ],
   "scripts": {
-    "test": "./node_modules/.bin/mocha --compilers js:@babel/register"
+    "test": "./node_modules/.bin/mocha --compilers js:@babel/register",
+    "compile": "babel src -d lib",
+    "clean": "rimraf lib",
+    "prepublish": "npm run clean && npm run compile && npm run test"
   },
   "author": "Oleksandr Antonenko",
   "license": "ISC",
@@ -17,5 +25,8 @@
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9"
+  },
+  "dependencies": {
+    "rimraf": "^2.6.3"
   }
 }
