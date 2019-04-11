@@ -1,0 +1,31 @@
+{
+  "name": "gulp-task",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oleksandr Antonenko",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "babel-loader": "^8.0.5",
+    "browser-sync": "^2.26.3",
+    "gulp": "^4.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-css-copy-assets": "0.0.5",
+    "gulp-newer": "^1.4.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-svg-symbols": "^3.2.3",
+    "webpack": "^4.29.6"
+  },
+  "dependencies": {
+    "webpack-stream": "^5.2.1"
+  }
+}
