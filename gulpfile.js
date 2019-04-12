@@ -3,6 +3,7 @@ const {
   series,
   dest,
   src,
+  parallel,
 } = require('gulp');
 const cleanCSS = require('gulp-clean-css');
 const sourcemaps = require('gulp-sourcemaps');
@@ -76,7 +77,7 @@ const assets = () => {
 };
 
 const images = () => {
-  return src(SRC_IMAGES_FOLDER, {allowEmpty: true})
+  return src(`${SRC_IMAGES_FOLDER}/**/*.svg`, {allowEmpty: true})
     .pipe(svgSymbols())
     .pipe(dest(DEST_IMAGES_FOLDER));
 };
@@ -85,6 +86,7 @@ function watchFiles() {
   watch(SRC_CSS_FOLDER, compressCss);
   watch(SRC_ASSETS_FOLDER, assets);
   watch(SRC_IMAGES_FOLDER, images);
+  watch(`${SRC_FOLDER}/**/*.html`, html);
 }
 
 function watchDestFolder() {
@@ -99,9 +101,14 @@ const js = () => {
     .pipe(browserSync.stream())
 };
 
-const build = series(cleanDist, images, compressCss, assets);
+const html = () => {
+  return src([`${SRC_FOLDER}/**/*.html`])
+    .pipe(dest(DEST_FOLDER))
+};
+
+const build = series(cleanDist, html, images, compressCss, assets, js);
 const serve = series(browserSyncInit, watchDestFolder);
-const dev = series(build, watch, serve);
+const dev = parallel(build, watchFiles, serve);
 
 exports.styles = compressCss;
 exports.clean = cleanDist;
